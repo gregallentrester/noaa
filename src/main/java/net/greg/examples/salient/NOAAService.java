@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class NOAAService {
+public final class NOAAService {
 
 
   public static void main(String[] args) {
@@ -25,6 +25,8 @@ public class NOAAService {
 
   private void accept(String[] args) {
 
+//locate(args);
+//*
     String forecasts = forecast(locate(args));
 
     System.err.println(forecasts);
@@ -37,6 +39,8 @@ public class NOAAService {
       publisher.write(forecasts);
     }
     catch(IOException e) { e.printStackTrace(); }
+
+  //  */
   }
 
 
@@ -80,9 +84,14 @@ public class NOAAService {
           line = line.replace('"', ' ');
 
           if (line.contains(NAME_TAG)) {
-
             line = line.substring(line.indexOf(":")+1);
             forecasts.append(HR + "\n<li><b><br/>" + line.trim() + "</b>");
+          }
+          else if (line.contains(ICON_LBL)) {
+            line = line.substring(line.indexOf(":")+1);
+
+            forecasts.append("\n<li><img src='" + line.trim());
+            forecasts.append(STYLE);
           }
           else {
             forecasts.append("\n<li>" + line.trim());
@@ -106,12 +115,8 @@ public class NOAAService {
 
     String answer = "";
 
-    String[] coordinate = args[0].split(",");
+    ENDPOINT_POINTS.append(args[0]);
 
-    ENDPOINT_POINTS.
-      append(coordinate[0]).
-      append(",-").
-      append(coordinate[1]);
 
     try {
 
@@ -159,9 +164,13 @@ public class NOAAService {
 
   private static final String NUMBER_LBL = "number";
   private static final String NAME_TAG = "name";
+  private static final String ICON_LBL = "icon";
 
   private static final String PREAMBLE =
     "<!DOCTYPE html><html><ul style='list-style:none;'>";
+
+  private static final String STYLE =
+    "' width='30' height='30' style='border-radius: 50%;'/>";
 
   private static final String HR =
     "<hr style='border:0; height:1px;width:95%;margin-top:1.4em;"+

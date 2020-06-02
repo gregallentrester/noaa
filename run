@@ -1,6 +1,8 @@
 #!/bin/bash -p
 
 # run w/o fanfare
-mvn spring-boot:run -q -B -Dspring-boot.run.arguments="37.3541,121.9552"
-
+#mvn spring-boot:run -q -B -Dspring-boot.run.arguments="37.3541,121.9552"
+ #mvn spring-boot:run -q -B -Dspring-boot.run.arguments="40.730610,73.935242"
+ mvn spring-boot:run -q -B -Dspring-boot.run.arguments="40.7306,-73.9352"
+ 
 open NOAAForecast.HTML
